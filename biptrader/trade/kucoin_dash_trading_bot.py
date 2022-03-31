@@ -8,7 +8,6 @@ import talib
 
 # TRADING API KEY & SECRET
 # kucoin
-from trade.mykucoin import MyKucoin
 
 API_PASSPHRASE = "ldaram2648"
 API_KEY = '618ce81a3f018700015de3ac'
