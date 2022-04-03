@@ -9,6 +9,7 @@ from unittest import TestCase
 # from biptrader.algorithms import MACD_crossover_points_RSI_of_point
 from biptrader import CheckTradeAlgorithmOnline, Plot
 from biptrader import MACD_crossover_points_RSI_of_point
+from biptrader.check.pattern_recognition import CandlestickPattern
 
 
 class TestCheckTradeAlgorithmOnline(TestCase):
@@ -28,25 +29,66 @@ class TestCheckTradeAlgorithmOnline(TestCase):
         alg = MACD_crossover_points_RSI_of_point()
         checker.recommander_title="MACD_crossover_points_RSI_of_point"
         checker.check_lastyears(alg.recommendation, "ETH-USD")
-        Plot().show_with_signals(checker.df,checker.get_summary())
+        p = Plot(checker.df)
+        p.set_title(checker.get_summary())
+        p.add_signals()
+        p.show()
 
     def test_plot_DASHUSD(self):
         checker = CheckTradeAlgorithmOnline()
         alg = MACD_crossover_points_RSI_of_point()
         checker.recommander_title="MACD_crossover_points_RSI_of_point"
         checker.check_lastyears(alg.recommendation, "DASH-USD",years=1)
-        Plot().show_with_signals(checker.df,checker.get_summary())
+        p = Plot(checker.df)
+        p.set_title(checker.get_summary())
+        p.add_signals()
+        p.show()
 
     def test_plot_DASHUSD_lastmonth_1h(self):
         checker = CheckTradeAlgorithmOnline()
         alg = MACD_crossover_points_RSI_of_point()
         checker.recommander_title="MACD_crossover_points_RSI_of_point"
         checker.check_lastmonths(alg.recommendation, "DASH-USD",months=1,interval="1h")
-        Plot().show_with_signals(checker.df,checker.get_summary())
+        p = Plot(checker.df)
+        p.set_title(checker.get_summary())
+        p.add_signals()
+        p.show()
 
     def test_plot_DASHUSD_lastday_1m(self):
         checker = CheckTradeAlgorithmOnline()
         alg = MACD_crossover_points_RSI_of_point()
         checker.recommander_title="MACD_crossover_points_RSI_of_point"
         checker.check_lastdays(alg.recommendation, "DASH-USD",days=1,interval="1m")
-        Plot().show_with_signals(checker.df,checker.get_summary())
+        p = Plot(checker.df)
+        p.set_title(checker.get_summary())
+        p.add_signals()
+        p.show()
+
+    def test_plot_DASHUSD_lastmonth_1h_MACD_SMA_RSI_STOCH(self):
+        checker = CheckTradeAlgorithmOnline()
+        alg = MACD_crossover_points_RSI_of_point()
+        checker.recommander_title="MACD_crossover_points_RSI_of_point"
+        checker.check_lastmonths(alg.recommendation, "DASH-USD",months=1,interval="1h")
+        analysis = checker.get_technical_indicators()
+        p = Plot(checker.df)
+        p.set_title(checker.get_summary())
+        p.add_signals()
+        p.add_MACD(analysis)
+        p.add_SMA(analysis)
+        p.add_RSI(analysis)
+        p.add_STOCH(analysis)
+        p.show()
+
+    def test_plot_DASHUSD_lastmonth_1h_PatternRecognition(self):
+        checker = CheckTradeAlgorithmOnline()
+        alg = MACD_crossover_points_RSI_of_point()
+        checker.recommander_title="MACD_crossover_points_RSI_of_point"
+        checker.check_lastmonths(alg.recommendation, "DASH-USD",months=1,interval="1h")
+        patterns = checker.get_patterns()
+        # p = Plot(checker.df,rows=2,row_heights=[0.8,0.2])
+        p = Plot(patterns,rows=2,row_heights=[0.8,0.2])
+        p.set_title(checker.get_summary())
+        p.add_signals()
+        p.add_pattern(patterns)
+        p.show()
+

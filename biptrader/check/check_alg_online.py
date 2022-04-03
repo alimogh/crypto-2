@@ -24,7 +24,7 @@ class CheckTradeAlgorithmOnline(CheckTradeAlgorithm):
     def __init__(self):
         super(CheckTradeAlgorithmOnline, self).__init__()
 
-    def check_recommender(self,fn_recommendation,tickers,start,end,interval="1d",period="max"):
+    def check_recommender(self,fn_recommendation,tickers,period="max",start=None,end=None,interval="1d"):
         self.__init__()
         self.df = yf.download(tickers,start=start,end=end,
                               progress=False,interval=interval,period=period)
@@ -48,13 +48,14 @@ class CheckTradeAlgorithmOnline(CheckTradeAlgorithm):
             ,"profit":self.get_profit()
             ,"remain":self.INVESTMENT_AMOUNT_DOLLARS
         }
-        self.df_conclusion = self.df_conclusion.append(new_row,ignore_index=True)
+        # self.df_conclusion = self.df_conclusion.append(new_row,ignore_index=True) #FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+        self.df_conclusion = pd.concat([self.df_conclusion,pd.Series(new_row)],ignore_index=True)
 
     def check_lastyears(self,fn_recommendation,tickers,years=1,interval="1d"):
         year = datetime.date.today().year
         start = "%i-01-01"%(year-years)
         end = "%i-12-31"%(year-1)
-        self.check_recommender(fn_recommendation,tickers,start,end,interval)
+        self.check_recommender(fn_recommendation,tickers,start=start,end=end,interval=interval)
 
     def check_lastmonths(self,fn_recommendation,tickers,months=1,interval="1h"):
         self.check_recommender(fn_recommendation,tickers,period="%imo"%(months),start=None,end=None,interval=interval)
