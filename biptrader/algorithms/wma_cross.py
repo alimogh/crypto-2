@@ -35,13 +35,13 @@ class WMA_cross_point:
             # if(wma_last>=last_low and wma_last<=last_high \
             #     and (wma_prev<prev_low-0.2 or wma_prev>prev_high+0.2)):
             #     wma_result = 'BUY' if wma_last<=last_low else 'SELL'
-            if(wma_last<last_low or wma_last>last_high) \
-                and (wma_prev>=prev_low and wma_prev<=prev_high):
-                wma_result = 'BUY' if wma_last<=last_low else 'SELL'
-            # if wma_last<last_low and wma_prev>=prev_low:
-            #     wma_result = 'BUY'
-            # elif wma_last>last_high and wma_prev<=prev_high:
-            #     wma_result = 'SELL'
+            # if(wma_last<last_low or wma_last>last_high) \
+            #     and (wma_prev>=prev_low and wma_prev<=prev_high):
+            #     wma_result = 'BUY' if wma_last<=last_low else 'SELL'
+            if wma_last<last_low and wma_prev>=prev_low:
+                wma_result = 'BUY'
+            elif wma_last>last_high and wma_prev<=prev_high:
+                wma_result = 'SELL'
 
         if wma_result in ["BUY","SELL"]:
             print('signal:',wma_result,'last_high(%s)<=wma_last(%s)>=(%s)last_low'%(last_high,wma_last,last_low)

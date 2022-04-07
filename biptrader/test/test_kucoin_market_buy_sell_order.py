@@ -50,9 +50,20 @@ class Test(TestCase):
 
 
     def test_kucoin_market_buy_order(self):
-        order = self.exchange.create_market_buy_order(self.CCXT_TICKER_NAME, 0.002)
+        order = self.exchange.create_market_buy_order(self.CCXT_TICKER_NAME, 0.001)
         print(order)
+# {'id': '624e754b09b9040001c41913', 'clientOrderId': '1499576d-db1a-4006-aaf0-396af9033c1a'
+    # , 'info': {'orderId': '624e754b09b9040001c41913'}, 'timestamp': 1649309004796, 'datetime': '2022-04-07T05:23:24.796Z'
+    # , 'lastTradeTimestamp': None, 'symbol': 'DASH/USDT', 'type': 'market', 'side': 'buy', 'price': None
+    # , 'amount': 0.01, 'cost': None, 'average': None, 'filled': None, 'remaining': None, 'status': None
+    # , 'fee': None, 'trades': None}
+
 
     def test_kucoin_market_sell_order(self):
-        order = self.exchange.create_market_sell_order(self.CCXT_TICKER_NAME, 0.002)
+        order = self.exchange.create_market_sell_order(self.CCXT_TICKER_NAME, 0.001)
         print(order)
+    # {'id': '624e759827218b0001e137d0', 'clientOrderId': '63c0189f-82c7-4112-a964-22f0a1037fdc'
+    # , 'info': {'orderId': '624e759827218b0001e137d0'}, 'timestamp': 1649309081699, 'datetime': '2022-04-07T05:24:41.699Z'
+    # , 'lastTradeTimestamp': None, 'symbol': 'DASH/USDT', 'type': 'market', 'side': 'sell', 'price': None
+    # , 'amount': 0.01, 'cost': None, 'average': None, 'filled': None, 'remaining': None, 'status': None
+    # , 'fee': None, 'trades': None}
