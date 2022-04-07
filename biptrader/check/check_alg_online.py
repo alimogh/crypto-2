@@ -24,6 +24,7 @@ class CheckTradeAlgorithmOnline(CheckTradeAlgorithm):
     def __init__(self):
         super(CheckTradeAlgorithmOnline, self).__init__()
 
+
     def check_recommender(self,fn_recommendation,tickers,period="max",start=None,end=None,interval="1d"):
         self.__init__()
         self.df = yf.download(tickers,start=start,end=end,
@@ -49,7 +50,8 @@ class CheckTradeAlgorithmOnline(CheckTradeAlgorithm):
             ,"remain":self.INVESTMENT_AMOUNT_DOLLARS
         }
         # self.df_conclusion = self.df_conclusion.append(new_row,ignore_index=True) #FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
-        self.df_conclusion = pd.concat([self.df_conclusion,pd.Series(new_row)],ignore_index=True)
+        # self.df_conclusion = pd.concat([self.df_conclusion,pd.Series(new_row)],ignore_index=True)
+        self.df_conclusion = self.df_conclusion.append(new_row,ignore_index=True)
 
     def check_lastyears(self,fn_recommendation,tickers,years=1,interval="1d"):
         year = datetime.date.today().year
@@ -60,12 +62,17 @@ class CheckTradeAlgorithmOnline(CheckTradeAlgorithm):
     def check_lastmonths(self,fn_recommendation,tickers,months=1,interval="1h"):
         self.check_recommender(fn_recommendation,tickers,period="%imo"%(months),start=None,end=None,interval=interval)
 
+
     def check_lastdays(self,fn_recommendation,tickers,days=1,interval="1m"):
         self.check_recommender(fn_recommendation,tickers,period="%id"%(days),start=None,end=None,interval=interval)
 
-    def check_all(self,fn_recommendation,years=1,interval="1d"):
+    def check_year_all(self,fn_recommendation,years=1,interval="1d"):
         for ticker in self.popular_tickers:
             self.check_lastyears(fn_recommendation,ticker,years,interval)
+
+    def check_all(self,fn_recommendation,period="max",start=None,end=None,interval="1d"):
+        for ticker in self.popular_tickers:
+            self.check_recommender(fn_recommendation,ticker,period=period,start=start,end=end,interval=interval)
 
     def check_AAPL_5_year(self,fn_recommendation):
         self.check_lastyears(fn_recommendation,"AAPL",years=5)

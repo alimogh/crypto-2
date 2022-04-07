@@ -71,16 +71,16 @@ class CheckTradeAlgorithm:
         pass
 
     def get_revenue(self):
-        return self.df["revenue"].sum()
+        return self.df["revenue"].sum() if "revenue" in self.df.columns else 0
 
     def get_profit(self):
-        return self.df[self.df.signal=="SELL"]["profit"].sum()
+        return self.df[self.df.signal=="SELL"]["profit"].sum() if "signal" in self.df.columns else 0
 
     def get_buy_signal_count(self):
-        return len(self.df[self.df.signal=="BUY"])
+        return len(self.df[self.df.signal=="BUY"]) if "signal" in self.df.columns else 0
 
     def get_sell_signal_count(self):
-        return len(self.df[self.df.signal=="SELL"])
+        return len(self.df[self.df.signal=="SELL"]) if "signal" in self.df.columns else 0
 
     def get_summary(self):
         return "{revenue:%f,profit:%f,remain:%f,buy_signal_count:%i,sell_signal_count:%i}"\
@@ -112,6 +112,10 @@ class CheckTradeAlgorithm:
         analysis['sma_r'] = analysis['rsi'].rolling(RSI_AVG_PERIOD).mean()  # pd.rolling_mean(analysis.rsi, RSI_AVG_PERIOD) # check shift
         analysis['macd'], analysis['macdSignal'], analysis['macdHist'] = ta.MACD(df.Close.to_numpy(), fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL) # ta.MACD(df.Close.as_matrix(), fastperiod=MACD_FAST, slowperiod=MACD_SLOW, signalperiod=MACD_SIGNAL)
         analysis['stoch_k'], analysis['stoch_d'] = ta.STOCH(df.High.to_numpy(), df.Low.to_numpy(), df.Close.to_numpy(), slowk_period=STOCH_K, slowd_period=STOCH_D) # ta.STOCH(df.High.as_matrix(), df.Low.as_matrix(), df.Close.as_matrix(), slowk_period=STOCH_K, slowd_period=STOCH_D)
+
+        analysis['wma_m'] = ta.WMA(df.Close.to_numpy(),timeperiod=30)
+        analysis['wma_f'] = ta.WMA(df.Close.to_numpy(),timeperiod=20)
+        analysis['wma_s'] = ta.WMA(df.Close.to_numpy(),timeperiod=50)
 
         analysis['sma'] = np.where(analysis.sma_f > analysis.sma_s, 1, 0)
         analysis['macd_test'] = np.where((analysis.macd > analysis.macdSignal), 1, 0)

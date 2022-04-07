@@ -12,7 +12,8 @@ import pandas as pd
 class Plot:
     fig : None
 
-    def __init__(self,df,rows=6,cols=1,row_heights=[0.50, 0.10, 0.10, 0.10, 0.10, 0.10],template="plotly_white"
+    # def __init__(self,df,rows=7,cols=1,row_heights=[0.46, 0.09, 0.09, 0.09, 0.09, 0.09, 0.09],template="plotly_white"
+    def __init__(self,df,rows=6,cols=1,row_heights=[0.5, 0.1, 0.1, 0.1, 0.1, 0.1],template="plotly_white"
                  ,hover_pattern_name=None):
         self.df = df
         pio.templates.default = template
@@ -110,6 +111,11 @@ class Plot:
     def add_STOCH(self,df,stoch_k="stoch_k",stoch_d="stoch_d",row=6,col=1):
         self.fig.add_trace( go.Scatter(x=df['Date'],y=df[stoch_k] ,name=stoch_k, ), row=row, col=col)
         self.fig.add_trace( go.Scatter(x=df['Date'],y=df[stoch_d] ,name=stoch_d, ), row=row, col=col)
+
+    def add_WMA(self,df,wma_m="wma_m",wma_f="wma_f",wma_s="wma_s",row=1,col=1):
+        self.fig.add_trace( go.Scatter(x=df['Date'],y=df[wma_m] ,name=wma_f, ), row=row, col=col)
+        # self.fig.add_trace( go.Scatter(x=df['Date'],y=df[wma_f] ,name=wma_f, ), row=row, col=col)
+        # self.fig.add_trace( go.Scatter(x=df['Date'],y=df[wma_s] ,name=wma_s, ), row=row, col=col)
 
     def add_pattern(self,df,pattern='candlestick_pattern',row=1,col=1):
         # self.fig.update_layout(annotations=[
